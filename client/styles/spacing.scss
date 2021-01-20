@@ -1,0 +1,64 @@
+$spacingSize: 0.75em;
+
+$sides: (
+    t: top,
+    r: right,
+    b: bottom,
+    l: left,
+    x: (
+        left,
+        right,
+    ),
+    y: (
+        top,
+        bottom,
+    ),
+);
+$spacingTypes: (
+    m: margin,
+    p: padding,
+);
+
+@mixin setSpacing($type, $side, $spacing) {
+    @if $side != null {
+        #{$type}-#{$side}: $spacing;
+    } @else {
+        #{$type}: $spacing;
+    }
+}
+
+@mixin generateSpacing($type, $side) {
+    @for $i from 0 through 6 {
+        &-#{$i} {
+            $spacing: $i * $spacingSize;
+            @if type-of($side) == list {
+                @each $listSide in $side {
+                    @include setSpacing($type, $listSide, $spacing);
+                }
+            } @else {
+                @include setSpacing($type, $side, $spacing);
+            }
+        }
+    }
+}
+
+@mixin generateSides($type) {
+    @include generateSpacing($type, null);
+
+    @each $sideShort, $side in $sides {
+        &#{$sideShort} {
+            @include generateSpacing($type, $side);
+        }
+    }
+
+    &-auto {
+        @include setSpacing($type, left, auto);
+        @include setSpacing($type, right, auto);
+    }
+}
+
+@each $typeShort, $type in $spacingTypes {
+    .#{$typeShort} {
+        @include generateSides($type);
+    }
+}
