@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
-import Header from '@vkontakte/vkui/dist/components/Header/Header';
 import Button from '@vkontakte/vkui/dist/components/Button/Button';
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
 import Title from '@vkontakte/vkui/dist/components/Typography/Title/Title';
+import CompareSlider from '../../components/CompareSlider';
 
 import styles from './style.module.scss';
 
@@ -15,8 +15,20 @@ const Home = ({ id }) => (
 	<Panel id={id}>
 		<PanelHeader>PhotoEditor</PanelHeader>
 		<Div>
-			<img src='https://via.placeholder.com/200?text=logo' alt='logo' className={styles.logo}/>
-			<Title level='2' className={styles.title} weight='regular'>In velit do minim nostrud nisi pariatur cupidatat nulla irure consectetur eiusmod sit qui incididunt.</Title>
+			<Group>
+				<img src='https://via.placeholder.com/200?text=logo' alt='logo' className={styles.logo} />
+				<Title level='2' className={styles.title} weight='regular'>In velit do minim nostrud nisi pariatur cupidatat nulla irure consectetur eiusmod sit qui incididunt.</Title>
+				<Button mode='commerce' size='l' className={styles.button}>try</Button>
+				<Button mode='secondary' size='l' className={styles.button}>archive</Button>
+			</Group>
+			<Group>
+				<Title level='1' className={styles.examplesTitle}>Examples</Title>
+				<CompareSlider 
+					firstImage='https://via.placeholder.com/200x400/0000FF/808080?text=first'
+					secondImage='https://via.placeholder.com/200x400/FF0000/FFFFFF?text=second'
+					className='mt-2'
+				/>
+			</Group>
 		</Div>
 	</Panel>
 );

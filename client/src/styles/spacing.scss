@@ -19,6 +19,10 @@ $spacingTypes: (
     p: padding,
 );
 
+@mixin setSpacingByLevel($type, $side, $level){
+    @include setSpacing($type, $side, $spacingSize * $level);
+}
+
 @mixin setSpacing($type, $side, $spacing) {
     @if $side != null {
         #{$type}-#{$side}: $spacing;

@@ -4,6 +4,7 @@ import View from '@vkontakte/vkui/dist/components/View/View';
 import '@vkontakte/vkui/dist/vkui.css';
 
 import Home from './panels/Home/index';
+import './styles/global.scss';
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
