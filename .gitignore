@@ -1,0 +1,13 @@
+# Created by .ignore support plugin (hsz.mobi)
+.gitignore
+.idea/misc.xml
+backend/.env
+backend/__pycache__/
+backend/dummy/
+backend/static/
+
+backend/dummy
+backend/static
+backend/.env
+
+.idea/

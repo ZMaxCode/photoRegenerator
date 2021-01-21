@@ -69,7 +69,7 @@ class ModelImageVisualizer:
     def plot_transformed_image_from_url(
         self,
         url: str,
-        path: str = 'test_images/image.png',
+        path: str = 'test_images/example_1_c.png',
         results_dir:Path = None,
         figsize: (int, int) = (20, 20),
         render_factor: int = None,

@@ -110,7 +110,7 @@ data
 ColorizeTraining*[0-9]*.ipynb
 *Colorizer[0-9]*.ipynb
 lesson7-superres*.ipynb
-test.py
+../backend/test.py
 result_images
 
 deoldify/fastai
