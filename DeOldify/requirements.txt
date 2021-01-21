@@ -1,0 +1,22 @@
+fastai~=1.0.51
+wandb
+# tensorboardX~=1.6
+# ffmpeg~=1.4
+ffmpeg
+# ffmpeg-python~=0.1.17
+ffmpeg-python
+youtube-dl>=2019.4.17
+# jupyterlab
+# opencv-python>=3.3.0.10
+# opencv-python
+# pillow~=6.2.2
+pillow
+
+setuptools~=51.3.3
+numpy~=1.19.5
+scipy~=1.6.0
+tqdm~=4.56.0
+requests~=2.25.1
+matplotlib~=3.3.3
+# ipython~=7.19.0
+# notebook~=6.2.0
