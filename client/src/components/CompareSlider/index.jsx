@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import { ReactCompareSlider, ReactCompareSliderImage, ReactCompareSliderHandle } from 'react-compare-slider';
 
 
-
 const CompareSlider = ({ firstImage, secondImage, className }) => {
     return (
         <ReactCompareSlider
             itemOne={<ReactCompareSliderImage src={firstImage} alt="Image one" />}
             itemTwo={<ReactCompareSliderImage src={secondImage} alt="Image two" />}
             onlyHandleDraggable={true}
-            style={{height: 200}}
+            style={{height: 300}}
             className={className}
             handle={
                 <ReactCompareSliderHandle
@@ -22,9 +21,10 @@ const CompareSlider = ({ firstImage, secondImage, className }) => {
     )
 }
 
-CompareSlider.PropTypes = {
+CompareSlider.propTypes = {
     firstImage: PropTypes.string.isRequired,
     secondImage: PropTypes.string.isRequired,
+    className: PropTypes.string
 }
 
 export default CompareSlider;

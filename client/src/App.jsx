@@ -3,11 +3,14 @@ import bridge from '@vkontakte/vk-bridge';
 import View from '@vkontakte/vkui/dist/components/View/View';
 import '@vkontakte/vkui/dist/vkui.css';
 
-import Home from './panels/Home/index';
+import Home from './panels/Home';
+import Upload from './panels/Upload';
+
+import ViewContextProvider from './contexts/ViewContext';
+
 import './styles/global.scss';
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('home');
 
 	useEffect(() => {
 		bridge.subscribe(({ detail: { type, data }}) => {
@@ -20,9 +23,10 @@ const App = () => {
 	}, []);
 
 	return (
-		<View activePanel={activePanel}>
-			<Home id='home' />
-		</View>
+		<ViewContextProvider>
+			<Home id='home'/>
+			<Upload id='upload'/>
+		</ViewContextProvider>
 	);
 }
 

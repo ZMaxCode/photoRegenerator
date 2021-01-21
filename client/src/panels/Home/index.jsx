@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
@@ -9,32 +9,53 @@ import Div from '@vkontakte/vkui/dist/components/Div/Div';
 import Title from '@vkontakte/vkui/dist/components/Typography/Title/Title';
 import CompareSlider from '../../components/CompareSlider';
 
+import { useView } from '../../contexts/ViewContext';
+
 import styles from './style.module.scss';
 
-const Home = ({ id }) => (
-	<Panel id={id}>
-		<PanelHeader>PhotoEditor</PanelHeader>
-		<Div>
+const Home = ({ id }) => {
+
+	const {setActivePanel} = useView();
+
+	return (
+		<Panel id={id}>
+			<PanelHeader>PhotoEditor</PanelHeader>
 			<Group>
-				<img src='https://via.placeholder.com/200?text=logo' alt='logo' className={styles.logo} />
-				<Title level='2' className={styles.title} weight='regular'>In velit do minim nostrud nisi pariatur cupidatat nulla irure consectetur eiusmod sit qui incididunt.</Title>
-				<Button mode='commerce' size='l' className={styles.button}>try</Button>
-				<Button mode='secondary' size='l' className={styles.button}>archive</Button>
+				<Div>
+					<img src='https://via.placeholder.com/200?text=logo' alt='logo' className={styles.logo} />
+					<Title level='2' className={styles.title} weight='regular'>In velit do minim nostrud nisi pariatur cupidatat nulla irure consectetur eiusmod sit qui incididunt.</Title>
+					<Button
+						mode='commerce'
+						size='l'
+						className={styles.button}
+						onClick={() => setActivePanel('upload')}
+					>
+						try
+					</Button>
+					<Button
+						mode='secondary'
+						size='l'
+						className={styles.button}
+						onClick={() => setActivePanel('archive')}
+					>
+						archive
+					</Button>
+				</Div>
 			</Group>
 			<Group>
 				<Title level='1' className={styles.examplesTitle}>Examples</Title>
-				<CompareSlider 
+				<CompareSlider
 					firstImage='https://via.placeholder.com/200x400/0000FF/808080?text=first'
 					secondImage='https://via.placeholder.com/200x400/FF0000/FFFFFF?text=second'
 					className='mt-2'
 				/>
 			</Group>
-		</Div>
-	</Panel>
-);
+		</Panel>
+	)
+};
 
 Home.propTypes = {
-	id: PropTypes.string.isRequired
+	id: PropTypes.string.isRequired,
 };
 
 export default Home;
