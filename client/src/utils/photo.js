@@ -5,7 +5,6 @@ class Photo {
     }
 
     getSrc(){
-        console.log(this.src)
         return this.src;
     }
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
@@ -12,29 +12,39 @@ import File from '@vkontakte/vkui/dist/components/File/File';
 import { Icon24Camera } from '@vkontakte/icons';
 import FormLayout from '@vkontakte/vkui/dist/components/FormLayout/FormLayout';
 import PhotoEditor from '../../utils/photoEditor';
-import ErrorAlert from '../../components/alerts/ErrorAlert';
+import useOneButtonAlert  from '../../components/poputs/useOneButtonAlert';
+import { checkPhotoAndGetSrc } from '../../utils/helpers';
+import Button from '@vkontakte/vkui/dist/components/Button/Button';
 
 import { useView } from '../../contexts/ViewContext';
 
 const Upload = ({ id }) => {
 
-    const { setActivePanel, setPoput } = useView();
-    const [photoPreview, setPhotoPreview] = useState(null)
-    const photoEditor = new PhotoEditor;
+    const { setActivePanel } = useView();
+    const [photoEditor, setPhotoEditor] = useState(null);
+    const useAlert = useOneButtonAlert();
 
     const handlePhotoChange = async (e) => {
-        try{
-            await photoEditor.setPhoto(e.target.files);
-            setPhotoPreview(photoEditor.getPhotoPreview());
+        try { 
+            setPhotoEditor(new PhotoEditor(...await checkPhotoAndGetSrc(e.target.files))) 
         }
-        catch(error){
-            setPoput(
-                <ErrorAlert 
-                    header='Ошибка при загрузке фотографии'
-                    text={error}
-                />
-            )
+        catch (error) { 
+            useAlert.showAlert('Ошибка при загрузке фотографии', error.toString()) 
         }
+    }
+
+    const sendPhoto = async () => {
+        try {
+            if (!photoEditor || !photoEditor.getPhotoFile()) throw ('Вы не выбрали фотографию')
+
+            useAlert.showAlert( 'Фотография отправлена на обработку', 
+                                'Ipsum excepteur id in Lorem ex sint fugiat labore amet et.');
+
+            await photoEditor.sendPhoto();
+            
+            if(useAlert.isAlertShow) useAlert.hideAlert();
+        }
+        catch (error) { useAlert.showAlert('Ошибка при отправке фотографии', error.toString()) }
     }
 
     return (
@@ -49,7 +59,7 @@ const Upload = ({ id }) => {
                     <Div>
                         <Text>Culpa ipsum aliqua enim eiusmod pariatur labore ipsum dolor pariatur ipsum.</Text>
                     </Div>
-                    <FormItem top='Adipisicing tempor ullamco dolore esse.'>
+                    <FormItem top='Adipisicing tempor ullamco dolore esse.' className='pb-0'>
                         <File
                             controlSize='l'
                             before={<Icon24Camera />}
@@ -59,10 +69,26 @@ const Upload = ({ id }) => {
                             Select file
                         </File>
                     </FormItem>
-                    {photoPreview && 
-                        <img src={photoPreview.getSrc()} alt='test' />
-                    }
+
                 </Group>
+                {photoEditor &&
+                    <Group>
+                        <img
+                            src={photoEditor.getSrc()}
+                            alt='user photo'
+                            className='fullHeightImage'
+                        />
+                        <FormItem>
+                            <Button
+                                size='l'
+                                stretched
+                                onClick={sendPhoto}
+                            >
+                                Send
+                            </Button>
+                        </FormItem>
+                    </Group>
+                }
             </FormLayout>
         </Panel>
     )

@@ -1,24 +1,20 @@
-import UploadedPhoto from './uploadedPhoto';
-import Photo from './photo.js';
+import Photo from './photo';
 
-class PhotoEditor {
+class PhotoEditor extends Photo {
 
-    async setPhoto(photo) {
-
-        if (photo && photo.length) {
-            const uploadedPhoto = new UploadedPhoto(photo[0]);
-            await uploadedPhoto.loadPhoto();
-            this.photoPreview = new Photo(uploadedPhoto.getUploadedPhoto());
-            this.photoFile = uploadedPhoto.getPhotoFile();
-        }
-    }
-
-    getPhotoPreview(){
-        return this.photoPreview;
+    constructor(src, photoFile){
+        super(src)
+        this.photoFile = photoFile;
     }
 
     getPhotoFile(){
         return this.photoFile;
+    }
+
+    async sendPhoto(){
+        return new Promise(resolve => setTimeout(() => {
+            resolve(0);
+        }, 2000))
     }
 
 }
