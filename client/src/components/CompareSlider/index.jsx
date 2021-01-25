@@ -2,11 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ReactCompareSlider, ReactCompareSliderImage, ReactCompareSliderHandle } from 'react-compare-slider';
 
-
 const CompareSlider = ({ firstImage, secondImage, className }) => {
+
     return (
         <ReactCompareSlider
-            itemOne={<ReactCompareSliderImage src={firstImage} alt="Image one" />}
+            itemOne={
+                <ReactCompareSliderImage 
+                src={firstImage} 
+                alt="Image one"
+            />}
             itemTwo={<ReactCompareSliderImage src={secondImage} alt="Image two" />}
             onlyHandleDraggable={true}
             style={{height: 300}}

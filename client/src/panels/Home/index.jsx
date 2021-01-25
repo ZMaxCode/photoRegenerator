@@ -9,7 +9,7 @@ import Div from '@vkontakte/vkui/dist/components/Div/Div';
 import Title from '@vkontakte/vkui/dist/components/Typography/Title/Title';
 import CompareSlider from '../../components/CompareSlider';
 
-import { useView } from '../../contexts/ViewContext';
+import { useView } from '../../App';
 
 import styles from './style.module.scss';
 
