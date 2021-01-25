@@ -5,6 +5,7 @@ import PhotoEditor from '../../utils/photoEditor';
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import { FormItem } from '@vkontakte/vkui/dist/components/FormItem/FormItem';
 import Button from '@vkontakte/vkui/dist/components/Button/Button';
+import Photo from '../../components/Photo';
 
 import { useView } from '../../App';
 
@@ -32,11 +33,7 @@ const SendPhotoGroup = ({photoEditor}) => {
         <>
             {photoEditor &&
                 <Group>
-                    <img
-                        src={photoEditor.getSrc()}
-                        alt='user photo'
-                        className='fullHeightImage'
-                    />
+                    <Photo src={photoEditor.getSrc()} />
                     <FormItem>
                         <Button
                             size='l'
