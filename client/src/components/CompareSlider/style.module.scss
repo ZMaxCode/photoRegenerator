@@ -1,13 +1,13 @@
-.compareImageBlock{
-    height: 200px;
+.compareSliderBlock{
+    position: relative;
 }
 
-.compareButton{
-    border: none;
-    backdrop-filter: none;
-    box-shadow: none;
+.compareSlider{
+    max-height: 300px;
 }
 
-.compareLines{
-    opacity: 0;
+.download{
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
