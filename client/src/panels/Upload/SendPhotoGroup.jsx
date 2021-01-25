@@ -53,7 +53,7 @@ const SendPhotoGroup = ({photoEditor}) => {
 }
 
 SendPhotoGroup.propTypes = {
-    photoEditor: PropTypes.instanceOf(PhotoEditor).isRequired
+    photoEditor: PropTypes.instanceOf(PhotoEditor)
 }
 
 export default SendPhotoGroup;
