@@ -9,5 +9,9 @@ backend/static/
 backend/dummy
 backend/static
 backend/.env
+backend/cert.pem
+backend/key.pem
 
 .idea/
+backend/DeOldify/dummy/
+venv/

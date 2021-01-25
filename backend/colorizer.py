@@ -27,12 +27,12 @@ class Colorizer:
 
         if model == 'artistic':
             self.colorizer = get_artistic_image_colorizer(
-                root_folder=Path('../DeOldify'),
+                root_folder=Path('DeOldify'),
                 results_dir='static/cimages'
             )
         else:
             self.colorizer = get_stable_image_colorizer(
-                root_folder=Path('../DeOldify'),
+                root_folder=Path('DeOldify'),
                 results_dir='static/cimages'
             )
 
@@ -46,7 +46,7 @@ class Colorizer:
         image_path = self.colorizer.plot_transformed_image_from_url(
             url=url, render_factor=render_factor,
             compare=False, watermarked=watermarked,
-            path='static/examples/example_1_bw.png',
+            # path='static/examples/example_1_bw.png',
         )
         logging.info('End colorizing')
         return image_path
