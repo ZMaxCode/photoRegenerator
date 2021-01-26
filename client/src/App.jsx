@@ -6,6 +6,8 @@ import '@vkontakte/vkui/dist/vkui.css';
 import Home from './panels/Home';
 import Upload from './panels/Upload';
 import useAlertHook from './components/poputs/alert/useAlert';
+import User from './utils/user';
+import Archive from './panels/Archive';
 
 import './styles/global.scss';
 
@@ -17,7 +19,7 @@ const App = () => {
 
 	const [activePanel, setActivePanel] = useState('home');
 	const [poput, setPoput] = useState(null);
-	const [userInfo, setUserInfo] = useState(null);
+	const [user, setUser] = useState(null);
 
 	const useAlert = useAlertHook(setPoput);
 
@@ -29,7 +31,7 @@ const App = () => {
 
 				if (userInfo.error_type) throw new Error(userInfo.error_type);
 
-				setUserInfo(userInfo);
+				setUser(new User(userInfo));
 			}
 			catch (error) {
 				useAlert.error('Ошбика', error)
@@ -47,13 +49,14 @@ const App = () => {
 		getData();
 	}, []);
 
-	const context = { setActivePanel, setPoput, userInfo, useAlert };
+	const context = { setActivePanel, setPoput, user, useAlert };
 
 	return (
 		<ViewContext.Provider value={context}>
 			<View activePanel={activePanel} popout={poput}>
 				<Home id='home' />
 				<Upload id='upload' />
+				<Archive id='archive' />
 			</View>
 		</ViewContext.Provider>
 	);

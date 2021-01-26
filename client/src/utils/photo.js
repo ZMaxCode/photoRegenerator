@@ -1,7 +1,7 @@
 import { isMobile } from './helpers';
 import bridge from '@vkontakte/vk-bridge';
 
-class Photo {
+class Photo{
 
     constructor(src, alt = 'photo') {
         this.src = src;
