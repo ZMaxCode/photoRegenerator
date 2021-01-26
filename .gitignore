@@ -12,6 +12,6 @@ backend/.env
 backend/cert.pem
 backend/key.pem
 
-.idea/
+.idea
 backend/DeOldify/dummy/
-venv/
+venv

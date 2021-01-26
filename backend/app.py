@@ -3,11 +3,13 @@ import os
 import sys
 import logging
 import redis
+import re
 from rq import Queue
 from flask import Flask, jsonify, send_from_directory, request
 from flask_cors import CORS
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Connection, ResultProxy
+from sqlalchemy.orm import sessionmaker, Session
 
 from settings import BW_IMAGES_FOLDER, C_IMAGES_FOLDER, DB_NAME, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD
 from utils import generate_file_name
@@ -30,6 +32,7 @@ redis = redis.Redis()
 queue = Queue('high', is_async=False, connection=redis)
 
 engine = create_engine(f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
+Session: Session = sessionmaker(bind=engine)
 
 ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg']
 
@@ -59,21 +62,79 @@ def get_file(folder, filename):
 
 @app.route('/test')
 def test2():
-    ar: ResultProxy = connection.execute(archive.select())
-    ar = ar.fetchall()
-    return jsonify(
-        {'result': [dict(row) for row in ar]}
-    )
+    session = Session()
+    session.begin(subtransactions=True)
+
+    body = request.form
+
+    if 'vk_id' in body:
+        try:
+            a: ResultProxy = session.execute(
+                archive.insert().values(
+                    vk_id=body['vk_id'],
+                    bw_image_path='q',
+                    c_image_path='w')
+            )
+
+            ar: ResultProxy = session.execute(archive.select()
+                                              #     .where(
+                                              #     # archive.c.vk_id == 172349355
+                                              # )
+                                              )
+            ar = ar.fetchall()
+
+            session.commit()
+            return jsonify(
+                {'result': [dict(row.items()) for row in ar]}
+            )
+        except Exception as e:
+            logging.error('error', exc_info=e)
+            session.rollback()
+            return jsonify(
+                error='db error'
+            )
+        # finally:
+        # session.close()
+    else:
+        try:
+            ar: ResultProxy = session.execute(archive.select()
+                                              #     .where(
+                                              #     # archive.c.vk_id == 172349355
+                                              # )
+                                              )
+            ar = ar.fetchall()
+
+            session.commit()
+            return jsonify(
+                {'result': [dict(row.items()) for row in ar]}
+            )
+        except Exception as e:
+            logging.error(exc_info=e)
+            session.rollback()
+            return jsonify(
+                error='db error'
+            )
+        # finally:
+        # session.close()
 
 
 @app.route('/examples', methods=['GET'])
 def get_examples():
     examples = []
+    examps = {}
 
     try:
         for (_, _, files) in walk('static/examples'):
             for file in files:
-                examples.append(file)
+                num = re.search('([0-9]+)', file)
+                col = re.search('(c|bw)', file)
+                if num[0] not in examps:
+                    examps[num[0]] = {}
+                examps[num[0]][col[0]] = f'/uploads/examples/{file}'
+
+            for item in examps:
+                examples.append(examps[item])
+
     except IOError:
         logging.error('Not found static/examples')
 
