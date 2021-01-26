@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
@@ -7,7 +7,7 @@ import Button from '@vkontakte/vkui/dist/components/Button/Button';
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
 import Title from '@vkontakte/vkui/dist/components/Typography/Title/Title';
-import CompareSlider from '../../components/CompareSlider';
+import ExamplesGroup from './ExamplesGroup';
 
 import { useView } from '../../App';
 
@@ -42,14 +42,7 @@ const Home = ({ id }) => {
 					</Button>
 				</Div>
 			</Group>
-			<Group>
-				<Title level='1' className={styles.examplesTitle}>Examples</Title>
-				<CompareSlider
-					firstImage='https://via.placeholder.com/200x400/0000FF/808080?text=first'
-					secondImage='https://via.placeholder.com/200x400/FF0000/FFFFFF?text=second'
-					className='mt-2'
-				/>
-			</Group>
+			<ExamplesGroup />
 		</Panel>
 	)
 };

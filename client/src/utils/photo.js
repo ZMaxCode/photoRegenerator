@@ -3,12 +3,17 @@ import bridge from '@vkontakte/vk-bridge';
 
 class Photo {
 
-    constructor(src) {
+    constructor(src, alt = 'photo') {
         this.src = src;
+        this.alt = alt;
     }
 
     getSrc() {
         return this.src;
+    }
+
+    getAlt(){
+        return this.alt;
     }
 
     async downloadPhoto() {

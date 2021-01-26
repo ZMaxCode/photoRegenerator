@@ -13,7 +13,7 @@ import SendPhotoGroup from './SendPhotoGroup';
 
 const Upload = ({ id }) => {
 
-    const { setActivePanel, useAlert } = useView();
+    const { setActivePanel } = useView();
     const [photoEditor, setPhotoEditor] = useState(null);
 
     return (

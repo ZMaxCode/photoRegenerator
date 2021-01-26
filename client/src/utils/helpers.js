@@ -1,3 +1,5 @@
+import Photo from './photo';
+
 const checkPhotoAndGetSrc = async (photoFile) => {
     return new Promise(resolve => {
 
@@ -21,7 +23,12 @@ const isMobile = () => {
     return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 }
 
+const convertPhotosListToObject = (photos) => {
+    return photos.map(el => [new Photo(el.bw), new Photo(el.c)]);
+}
+
 export {
     checkPhotoAndGetSrc,
-    isMobile
+    isMobile,
+    convertPhotosListToObject
 }

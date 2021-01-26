@@ -1,22 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import PhotoObj from '../../utils/photo';
 
 import styles from './style.module.scss';
 
-const Photo = ({ src, alt = 'image', downloadable = true, onClick, callback }) => {
-
-    const photo = new PhotoObj(src);
-
-    useEffect(() => {
-        if(callback) callback(photo);
-    }, [])
+const Photo = ({ photo, onClick }) => {
 
     return (
         <div className={styles.photoBlock}>
             <img
                 src={photo.getSrc()}
-                alt={alt}
+                alt={photo.getAlt()}
                 className={styles.photoBlock__img}
                 onClick={onClick}
             />
@@ -26,8 +20,7 @@ const Photo = ({ src, alt = 'image', downloadable = true, onClick, callback }) =
 }
 
 Photo.propTypes = {
-    src: PropTypes.string.isRequired,
-    alt: PropTypes.string,
+    photo: PropTypes.instanceOf(PhotoObj).isRequired,
     downloadable: PropTypes.bool,
     onClick: PropTypes.func,
     ref: PropTypes.func

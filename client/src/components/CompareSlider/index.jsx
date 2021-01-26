@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { ReactCompareSlider, ReactCompareSliderHandle } from 'react-compare-slider';
 import Photo from '../Photo';
@@ -8,6 +8,7 @@ import { Icon24MoreVertical } from '@vkontakte/icons';
 import { useView } from '../../App';
 import ActionSheet from '@vkontakte/vkui/dist/components/ActionSheet/ActionSheet';
 import ActionSheetItem from '@vkontakte/vkui/dist/components/ActionSheetItem/ActionSheetItem';
+import PhotoObj from '../../utils/photo';
 
 import styles from './style.module.scss';
 
@@ -15,12 +16,9 @@ const CompareSlider = ({ firstImage, secondImage, className }) => {
 
     const { setPoput } = useView();
 
-    const [firstPhotoObject, setFirstPhotoObject] = useState(null);
-    const [secondPhotoObject, setSecondPhotoObject] = useState(null);
-
     const openImage = (index) => {
         bridge.send('VKWebAppShowImages', {
-            images: [firstImage, secondImage],
+            images: [firstImage.getSrc(), secondImage.getSrc()],
             start_index: index
         })
     };
@@ -30,13 +28,13 @@ const CompareSlider = ({ firstImage, secondImage, className }) => {
             <ActionSheet onClose={() => setPoput(null)}>
                 <ActionSheetItem 
                     autoclose
-                    onClick={() => firstPhotoObject.downloadPhoto()}
+                    onClick={() => firstImage.downloadPhoto()}
                 >
                     Сохранить оригинал
                 </ActionSheetItem>
                 <ActionSheetItem 
                     autoclose
-                    onClick={() => secondPhotoObject.downloadPhoto()}
+                    onClick={() => secondImage.downloadPhoto()}
                 >
                     Сохранить копию
                 </ActionSheetItem>
@@ -49,17 +47,13 @@ const CompareSlider = ({ firstImage, secondImage, className }) => {
             <ReactCompareSlider
                 itemOne={
                     <Photo
-                        src={firstImage}
-                        alt="Image one"
+                        photo={firstImage}
                         onClick={() => openImage(0)}
-                        callback={(photo) => setFirstPhotoObject(photo)}
                     />}
                 itemTwo={
                     <Photo
-                        src={secondImage}
-                        alt="Image two"
+                        photo={secondImage}
                         onClick={() => openImage(1)}
-                        callback={(photo) => setSecondPhotoObject(photo)}
                     />}
                 onlyHandleDraggable={true}
                 className={`${styles.compareSlider} ${className}`}
@@ -81,8 +75,8 @@ const CompareSlider = ({ firstImage, secondImage, className }) => {
 }
 
 CompareSlider.propTypes = {
-    firstImage: PropTypes.string.isRequired,
-    secondImage: PropTypes.string.isRequired,
+    firstImage: PropTypes.instanceOf(PhotoObj).isRequired,
+    secondImage: PropTypes.instanceOf(PhotoObj).isRequired,
     className: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.object

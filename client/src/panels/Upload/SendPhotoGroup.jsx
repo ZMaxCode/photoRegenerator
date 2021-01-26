@@ -33,7 +33,7 @@ const SendPhotoGroup = ({photoEditor}) => {
         <>
             {photoEditor &&
                 <Group>
-                    <Photo src={photoEditor.getSrc()} />
+                    <Photo photo={photoEditor} />
                     <FormItem>
                         <Button
                             size='l'
