@@ -7,16 +7,11 @@ import re
 from rq import Queue
 from flask import Flask, jsonify, send_from_directory, request
 from flask_cors import CORS
-from sqlalchemy import create_engine
-from sqlalchemy.engine import Connection, ResultProxy
-from sqlalchemy.orm import sessionmaker, Session
 
 from settings import BW_IMAGES_FOLDER, C_IMAGES_FOLDER, DB_NAME, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD
 from utils import generate_file_name
 from worker import colorize_file
 from config import Config
-
-from models import metadata, archive
 
 logging.basicConfig(format='%(asctime)s [%(levelname)s] : %(message)s', stream=sys.stdout, level=logging.INFO)
 
@@ -29,15 +24,9 @@ app.config.from_object(Config)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 redis = redis.Redis()
-queue = Queue('high', is_async=False, connection=redis)
-
-engine = create_engine(f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
-Session: Session = sessionmaker(bind=engine)
+queue = Queue('high', is_async=True, connection=redis)
 
 ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg']
-
-connection: Connection = engine.connect()
-metadata.create_all(engine)
 
 
 @app.route('/uploads/<folder>/<filename>')
@@ -45,77 +34,6 @@ def get_file(folder, filename):
     return send_from_directory(
         app.config['UPLOAD_FOLDER'], f'{folder}/{filename}'
     )
-
-
-# @app.route('/', methods=['GET'])
-# def test():
-#     job = queue.enqueue(task, request.args.get('n'))
-#     q_len = len(queue)
-#
-#     print(job.is_finished)
-#
-#     return jsonify(
-#         test=job.id,
-#         len=q_len
-#     )
-
-
-@app.route('/test')
-def test2():
-    session = Session()
-    session.begin(subtransactions=True)
-
-    body = request.form
-
-    if 'vk_id' in body:
-        try:
-            a: ResultProxy = session.execute(
-                archive.insert().values(
-                    vk_id=body['vk_id'],
-                    bw_image_path='q',
-                    c_image_path='w')
-            )
-
-            ar: ResultProxy = session.execute(archive.select()
-                                              #     .where(
-                                              #     # archive.c.vk_id == 172349355
-                                              # )
-                                              )
-            ar = ar.fetchall()
-
-            session.commit()
-            return jsonify(
-                {'result': [dict(row.items()) for row in ar]}
-            )
-        except Exception as e:
-            logging.error('error', exc_info=e)
-            session.rollback()
-            return jsonify(
-                error='db error'
-            )
-        # finally:
-        # session.close()
-    else:
-        try:
-            ar: ResultProxy = session.execute(archive.select()
-                                              #     .where(
-                                              #     # archive.c.vk_id == 172349355
-                                              # )
-                                              )
-            ar = ar.fetchall()
-
-            session.commit()
-            return jsonify(
-                {'result': [dict(row.items()) for row in ar]}
-            )
-        except Exception as e:
-            logging.error(exc_info=e)
-            session.rollback()
-            return jsonify(
-                error='db error'
-            )
-        # finally:
-        # session.close()
 
 
 @app.route('/examples', methods=['GET'])

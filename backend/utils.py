@@ -1,6 +1,5 @@
 import os
 from uuid import uuid4
-from PIL import Image
 
 
 def generate_file_name(directory1, directory2, extension):
