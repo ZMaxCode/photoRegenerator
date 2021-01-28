@@ -10,7 +10,6 @@
 
 .title{
     text-align: center;
-    @include spacing.setSpacingByLevel(margin, top, 1);
 }
 
 .button{
