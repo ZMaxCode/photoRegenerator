@@ -11,7 +11,6 @@ const Home = ({ id }) => {
 	return (
 		<Panel id={id}>
 			<PanelHeader>PhotoEditor</PanelHeader>
-
 			<InfoGroup />
 			{/* <ExamplesGroup /> */}
 		</Panel>

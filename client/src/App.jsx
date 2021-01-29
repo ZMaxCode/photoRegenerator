@@ -56,7 +56,7 @@ const App = () => {
 			<View activePanel={activePanel} popout={poput}>
 				<Home id='home' />
 				<Upload id='upload' />
-				<Archive id='archive' />
+				{/* <Archive id='archive' /> */}
 			</View>
 		</ViewContext.Provider>
 	);
